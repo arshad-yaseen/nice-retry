@@ -1,11 +1,8 @@
-
-
 ## [0.1.6](https://github.com/arshad-yaseen/nice-retry/compare/0.1.5...0.1.6) (2025-02-05)
-
 
 ### 🔧 Maintenance
 
-* improve abort checks ([2e2001d](https://github.com/arshad-yaseen/nice-retry/commit/2e2001d7d2a40e31992d8158648373bf43d61afd))
+- improve abort checks ([2e2001d](https://github.com/arshad-yaseen/nice-retry/commit/2e2001d7d2a40e31992d8158648373bf43d61afd))
 
 ## [0.1.5](https://github.com/arshad-yaseen/nice-retry/compare/0.1.4...0.1.5) (2025-02-05)
 

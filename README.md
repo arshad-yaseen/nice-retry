@@ -1,32 +1,37 @@
+[![npm version](https://badge.fury.io/js/nice-retry.svg)](https://badge.fury.io/js/nice-retry)
+[![Min zip size](https://img.shields.io/bundlephobia/minzip/nice-retry)](https://bundlephobia.com/package/nice-retry)
+
 # nice-retry
 
 A powerful, flexible, and developer-friendly retry utility for JavaScript/TypeScript with intelligent defaults and extensive customization options.
 
-[![npm version](https://badge.fury.io/js/nice-retry.svg)](https://badge.fury.io/js/nice-retry)
-[![Min zip size](https://img.shields.io/bundlephobia/minzip/nice-retry)](https://bundlephobia.com/package/nice-retry)
-
 ## Features
 
-- 🚀 **Two powerful retry functions**:
+- 🚀 Two powerful retry functions:
   - `retry.async()` for any async operations
   - `retry.fetch()` specifically optimized for fetch requests
-- 🔄 **Smart exponential backoff** with multiple jitter strategies
-- 🎯 **Configurable retry conditions** with built-in error predicates
-- 🔌 **Fallback mechanism** with support for multiple fallback functions
-- ⚡ **Abort support** using standard AbortController
-- 📊 **Detailed retry results** including attempts, timing, and error history
-- 💪 **TypeScript-first** with comprehensive type definitions
-- 🎨 **Zero dependencies**
+- 🔄 Smart exponential backoff with multiple jitter strategies
+- 🎯 Configurable retry conditions with built-in error predicates
+- 🔌 Fallback mechanism with support for multiple fallback functions
+- ⚡ Abort support using standard AbortController
+- 📊 Detailed retry results including attempts, timing, and error history
+- 💪 TypeScript-first with comprehensive type definitions
+- 🎨 Zero dependencies
 
-## Why nice-retry? 🤔
+## Table of Contents
 
-While there are several retry packages available, nice-retry stands out by offering:
-
-1. **Developer Experience**: Clear, typed APIs with intelligent defaults that "just work"
-2. **Flexibility**: Supports both generic async operations and fetch-specific retries
-3. **Modern Features**: Built-in support for AbortController, detailed statistics, and fallback functions
-4. **Smart Defaults**: Pre-configured for common scenarios while remaining highly customizable
-5. **Comprehensive Error Handling**: Distinct error types for different failure scenarios
+- [Installation](#installation)
+- [Quick Start](#quick-start)
+  - [Basic Usage](#basic-usage)
+  - [With Options](#with-options)
+- [API Reference](#api-reference)
+  - [retry.async](#retryasynct)
+  - [retry.fetch](#retryfetch)
+- [Options](#options)
+  - [Common Options](#common-options)
+  - [Fetch-Specific Options](#fetch-specific-options)
+- [Jitter Strategies](#jitter-strategies)
+- [Error Handling](#error-handling)
 
 ## Installation
 
@@ -73,7 +78,7 @@ const result = await retry.async(
 );
 ```
 
-## API Reference 📚
+## API Reference
 
 ### retry.async<T>(fn, options?)
 
@@ -153,7 +158,7 @@ const result = await retry.fetch('https://api.example.com/data', {
 | `retryStatusCodes`   | `number[]` | `[408, 429, 500, 502, 503, 504]` | HTTP status codes to retry |
 | `retryNetworkErrors` | `boolean`  | `true`                           | Retry on network errors    |
 
-## Jitter Strategies 🎲
+## Jitter Strategies
 
 nice-retry supports four jitter strategies:
 
@@ -192,10 +197,10 @@ try {
 }
 ```
 
-## Contributing 🤝
+## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
-## License 📄
+## License
 
 MIT License - see the [LICENSE](LICENSE) file for details.

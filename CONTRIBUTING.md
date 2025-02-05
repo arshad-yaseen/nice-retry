@@ -92,20 +92,6 @@ pnpm dev
 
 This is useful for continuous development and testing.
 
-## Testing nice-retry Locally
-
-To test nice-retry locally, follow these steps:
-
-1. **Run the Test UI**
-
-   Execute the following command to start the testing environment:
-
-   ```bash
-   pnpm dev:test-ui
-   ```
-
-   This will launch the UI in a local development environment, allowing you to test changes in real-time.
-
 ## Documentation
 
 Comprehensive documentation is essential.
