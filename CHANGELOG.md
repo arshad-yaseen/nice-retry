@@ -1,3 +1,12 @@
+
+
+## [0.1.5](https://github.com/arshad-yaseen/nice-retry/compare/0.1.4...0.1.5) (2025-02-05)
+
+
+### 📚 Documentation
+
+* readme ([36429a9](https://github.com/arshad-yaseen/nice-retry/commit/36429a9c417660673b5f4d49f5d85e8f2c49f26a))
+
 ## [0.1.4](https://github.com/arshad-yaseen/nice-retry/compare/0.1.3...0.1.4) (2025-02-05)
 
 ### 🔧 Maintenance
