@@ -3,7 +3,7 @@ import {
   FallbackError,
   MaxRetriesExceededError,
   RetryAbortedError,
-} from 'retry-error';
+} from 'retry-errors';
 import {describe, expect, it, vi} from 'vitest';
 
 describe('retryAsync', () => {
@@ -93,5 +93,50 @@ describe('retryAsync', () => {
         fallback,
       }),
     ).rejects.toThrow(FallbackError);
+  });
+});
+
+describe('retryAsync abort handling', () => {
+  it('should abort immediately without waiting for delay', async () => {
+    const controller = new AbortController();
+    const startTime = Date.now();
+
+    const fn = vi.fn().mockRejectedValue(new Error('fail'));
+    const retryPromise = retryAsync(fn, {
+      signal: controller.signal,
+      maxAttempts: 3,
+      initialDelay: 5000, // Long delay to test immediate abort
+    });
+
+    // Abort immediately
+    controller.abort();
+
+    await expect(retryPromise).rejects.toThrow(RetryAbortedError);
+
+    // Verify it aborted quickly
+    expect(Date.now() - startTime).toBeLessThan(100);
+    expect(fn).toHaveBeenCalledTimes(1);
+  });
+
+  it('should abort immediately during function execution', async () => {
+    const controller = new AbortController();
+
+    // Function that takes some time to complete
+    const fn = vi.fn().mockImplementation(async () => {
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      throw new Error('fail');
+    });
+
+    const retryPromise = retryAsync(fn, {
+      signal: controller.signal,
+      maxAttempts: 3,
+      initialDelay: 1000,
+    });
+
+    // Abort while function is still executing
+    setTimeout(() => controller.abort(), 500);
+
+    await expect(retryPromise).rejects.toThrow(RetryAbortedError);
+    expect(fn).toHaveBeenCalledTimes(1);
   });
 });

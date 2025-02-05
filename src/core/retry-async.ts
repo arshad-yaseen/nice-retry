@@ -1,12 +1,12 @@
-import {toError} from 'common-utils';
+import {checkAborted} from 'abort-handler';
+import {delay, toError} from 'common-utils';
 import {DEFAULT_BASE_OPTIONS} from 'defaults';
-import {calculateDelay, delayWithAbort} from 'delay';
+import {calculateDelay} from 'delay-calcs';
 import {
   FallbackError,
   MaxRetriesExceededError,
-  RetryAbortedError,
   RetryConditionFailedError,
-} from 'retry-error';
+} from 'retry-errors';
 import type {AsyncFunction, RetryAsyncOptions, RetryAsyncResult} from 'types';
 
 export const retryAsync = async <T>(
@@ -18,8 +18,12 @@ export const retryAsync = async <T>(
   const errors: Error[] = [];
   let previousDelay = mergedOptions.initialDelay;
 
+  checkAborted(mergedOptions.signal, 0, errors);
+
   for (let attempt = 1; attempt <= mergedOptions.maxAttempts; attempt++) {
     try {
+      checkAborted(mergedOptions.signal, attempt, errors);
+
       const result = await fn();
       return {
         data: result,
@@ -31,10 +35,9 @@ export const retryAsync = async <T>(
       const err = toError(error);
       errors.push(err);
 
-      // Check if we should abort
-      if (mergedOptions.signal?.aborted) {
-        throw new RetryAbortedError(attempt, errors);
-      }
+      checkAborted(mergedOptions.signal, attempt, errors);
+
+      mergedOptions.onRetry?.(err, attempt);
 
       // Check if we've exhausted all attempts
       if (attempt === mergedOptions.maxAttempts) {
@@ -46,7 +49,7 @@ export const retryAsync = async <T>(
       }
 
       // Calculate delay for next attempt
-      const delay = calculateDelay(
+      const delayMs = calculateDelay(
         attempt,
         mergedOptions.initialDelay,
         mergedOptions.maxDelay,
@@ -54,14 +57,10 @@ export const retryAsync = async <T>(
         previousDelay,
       );
 
-      // Store this delay for next iteration
-      previousDelay = delay;
-
-      // Notify about retry attempt
-      mergedOptions.onRetry?.(err, attempt);
+      previousDelay = delayMs;
 
       // Wait before next attempt
-      await delayWithAbort(delay, mergedOptions.signal);
+      await delay(delayMs);
     }
   }
 
@@ -73,6 +72,8 @@ export const retryAsync = async <T>(
 
     for (const fallback of fallbacks) {
       try {
+        checkAborted(mergedOptions.signal, mergedOptions.maxAttempts, errors);
+
         const result = await fallback();
         return {
           data: result,

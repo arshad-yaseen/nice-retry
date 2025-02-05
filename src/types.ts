@@ -69,11 +69,11 @@ export type BaseRetryOptions<T> = {
 
   /**
    * Strategy to use for adding jitter to delays
-   * - 'full': Completely random delay between 0 and calculated delay
-   * - 'equal': Random delay between calculated/2 and calculated*1.5
-   * - 'decorrelated': Independent random delays with mean = calculated
-   * - 'none': No jitter, use exact calculated delay
-   * @default 'full'
+   * - `full`: Completely random delay between 0 and calculated delay
+   * - `equal`: Random delay between calculated/2 and calculated*1.5
+   * - `decorrelated`: Independent random delays with mean = calculated
+   * - `none`: No jitter, use exact calculated delay
+   * @default `full`
    */
   jitterStrategy?: JitterStrategy;
 

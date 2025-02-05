@@ -1,9 +1,6 @@
 import {JitterStrategy} from 'types';
 
-/**
- * Calculates the base exponential backoff delay without jitter
- */
-const calculateBaseDelay = (
+export const calculateBaseDelay = (
   attempt: number,
   initialDelay: number,
   maxDelay: number,
@@ -12,10 +9,7 @@ const calculateBaseDelay = (
   return Math.min(maxDelay, initialDelay * Math.pow(2, attempt - 1));
 };
 
-/**
- * Applies jitter to the base delay according to different strategies
- */
-const applyJitter = (
+export const applyJitter = (
   baseDelay: number,
   strategy: JitterStrategy,
   previousDelay: number,
@@ -60,36 +54,4 @@ export const calculateDelay = (
   const prevDelay = previousDelay ?? initialDelay;
 
   return applyJitter(baseDelay, jitterStrategy, prevDelay, initialDelay);
-};
-
-/**
- * Creates a promise that resolves after the calculated delay, but can be aborted
- */
-export const delayWithAbort = (
-  ms: number,
-  signal?: AbortSignal,
-): Promise<void> => {
-  if (signal?.aborted) {
-    return Promise.reject(new DOMException('Aborted', 'AbortError'));
-  }
-
-  return new Promise((resolve, reject) => {
-    const timer = setTimeout(resolve, ms);
-
-    if (signal) {
-      const abortHandler = () => {
-        clearTimeout(timer);
-        reject(new DOMException('Aborted', 'AbortError'));
-      };
-
-      signal.addEventListener('abort', abortHandler, {once: true});
-
-      // Clean up listener both on success and failure
-      const cleanup = () => signal.removeEventListener('abort', abortHandler);
-      Promise.prototype.finally.call(
-        new Promise(res => setTimeout(res, ms)),
-        cleanup,
-      );
-    }
-  });
 };

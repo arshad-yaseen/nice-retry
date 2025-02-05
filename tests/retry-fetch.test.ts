@@ -1,5 +1,5 @@
 import {retryFetch} from 'core/retry-fetch';
-import {RetryConditionFailedError} from 'retry-error';
+import {RetryConditionFailedError} from 'retry-errors';
 import {afterEach, describe, expect, it, vi} from 'vitest';
 
 import {createMockResponse, mockFetchWithDelay} from './mocks';

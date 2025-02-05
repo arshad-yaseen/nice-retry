@@ -1,4 +1,4 @@
-import {calculateDelay, delayWithAbort} from 'delay';
+import {calculateDelay} from 'delay-calcs';
 import {afterEach, beforeEach, describe, expect, it, vi} from 'vitest';
 
 describe('Delay Functions', () => {
@@ -97,55 +97,6 @@ describe('Delay Functions', () => {
           expect(result).toBe(expected);
         });
       });
-    });
-  });
-
-  describe('delayWithAbort', () => {
-    beforeEach(() => {
-      vi.useFakeTimers();
-    });
-
-    afterEach(() => {
-      vi.restoreAllMocks();
-    });
-
-    it('should resolve after specified delay', async () => {
-      const delay = delayWithAbort(1000);
-      vi.advanceTimersByTime(999);
-      expect(await Promise.race([delay, Promise.resolve('not done')])).toBe(
-        'not done',
-      );
-      vi.advanceTimersByTime(1);
-      await expect(delay).resolves.toBeUndefined();
-    });
-
-    it('should reject immediately if signal is already aborted', async () => {
-      const controller = new AbortController();
-      controller.abort();
-      await expect(delayWithAbort(1000, controller.signal)).rejects.toThrow(
-        new DOMException('Aborted', 'AbortError'),
-      );
-    });
-
-    it('should reject when aborted during delay', async () => {
-      const controller = new AbortController();
-      const delay = delayWithAbort(1000, controller.signal);
-      vi.advanceTimersByTime(500);
-      controller.abort();
-      await expect(delay).rejects.toThrow(
-        new DOMException('Aborted', 'AbortError'),
-      );
-    });
-
-    it('should clear timeout when aborted', async () => {
-      const controller = new AbortController();
-      const clearTimeoutSpy = vi.spyOn(global, 'clearTimeout');
-
-      const delay = delayWithAbort(1000, controller.signal);
-      controller.abort();
-
-      await expect(delay).rejects.toThrow();
-      expect(clearTimeoutSpy).toHaveBeenCalled();
     });
   });
 });

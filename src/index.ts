@@ -28,4 +28,4 @@ export {
   MaxRetriesExceededError,
   RetryAbortedError,
   FallbackError,
-} from 'retry-error';
+} from 'retry-errors';
