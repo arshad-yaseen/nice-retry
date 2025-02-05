@@ -1,3 +1,12 @@
+
+
+## [0.1.2](https://github.com/arshad-yaseen/nice-retry/compare/0.1.1...0.1.2) (2025-02-05)
+
+
+### 🔧 Maintenance
+
+* export error instances ([e783712](https://github.com/arshad-yaseen/nice-retry/commit/e783712ea5450d99b2e3519c158014f8f4d88c84))
+
 ## 0.1.1 (2025-02-05)
 
 ### 🔧 Maintenance

@@ -1,6 +1,6 @@
 {
   "name": "nice-retry",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Type-safe, lightweight (zero-dependency) retry utility for async operations that simply works.",
   "main": "./build/index.js",
   "module": "./build/index.mjs",
