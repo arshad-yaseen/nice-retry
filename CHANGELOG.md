@@ -1,3 +1,12 @@
+
+
+## [0.2.0](https://github.com/arshad-yaseen/nice-retry/compare/0.1.9...0.2.0) (2025-02-05)
+
+
+### 🚀 Features
+
+* backoff factor option ([3830503](https://github.com/arshad-yaseen/nice-retry/commit/38305030acf3b9822580c38fe0cd05f470772bde))
+
 ## [0.1.9](https://github.com/arshad-yaseen/nice-retry/compare/0.1.8...0.1.9) (2025-02-05)
 
 ### 🔧 Maintenance
