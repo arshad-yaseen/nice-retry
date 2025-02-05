@@ -1,11 +1,8 @@
-
-
 ## [0.1.4](https://github.com/arshad-yaseen/nice-retry/compare/0.1.3...0.1.4) (2025-02-05)
-
 
 ### 🔧 Maintenance
 
-* separate result types for fetch and async ([f25d20f](https://github.com/arshad-yaseen/nice-retry/commit/f25d20f811c37a0e370c9dbd9d043243f12736b5))
+- separate result types for fetch and async ([f25d20f](https://github.com/arshad-yaseen/nice-retry/commit/f25d20f811c37a0e370c9dbd9d043243f12736b5))
 
 ## [0.1.2](https://github.com/arshad-yaseen/nice-retry/compare/0.1.1...0.1.2) (2025-02-05)
 
