@@ -1,17 +1,17 @@
 import {DEFAULT_FETCH_OPTIONS} from 'defaults';
 import {isNetworkError, isRetryableHttpError} from 'error-predicates';
-import {RetryFetchOptions, RetryResult} from 'types';
+import {RetryFetchOptions, RetryFetchResult} from 'types';
 
 import {retryAsync} from './retry-async';
 
 export const retryFetch = async (
   input: RequestInfo | URL,
   init?: RequestInit & {retry?: Partial<RetryFetchOptions<Response>>},
-): Promise<RetryResult<Response>> => {
+): Promise<RetryFetchResult> => {
   const {retry: retryOptions, ...fetchInit} = init || {};
   const mergedOptions = {...DEFAULT_FETCH_OPTIONS, ...retryOptions};
 
-  return retryAsync(
+  const result = await retryAsync(
     async () => {
       const response = await fetch(input, fetchInit);
 
@@ -36,4 +36,9 @@ export const retryFetch = async (
       },
     },
   );
+
+  return {
+    ...result,
+    response: result.data,
+  };
 };

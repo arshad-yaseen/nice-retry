@@ -17,7 +17,12 @@ export const retry = {
   async: retryAsync,
 };
 
-export type {RetryAsyncOptions, RetryFetchOptions, RetryResult} from 'types';
+export type {
+  RetryAsyncOptions,
+  RetryFetchOptions,
+  RetryAsyncResult,
+  RetryFetchResult,
+} from 'types';
 export {
   RetryConditionFailedError,
   MaxRetriesExceededError,

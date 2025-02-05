@@ -7,18 +7,32 @@ export type AsyncFunction<T = any, Args extends any[] = any[]> = (
   ...args: Args
 ) => Awaitable<T>;
 
-/**
- * Represents the result of a retry operation
- */
-export type RetryResult<T> = {
-  /** The data returned from the successful retry attempt */
-  data: T;
+export type BaseRetryResult = {
   /** Number of attempts made before success or giving up */
   attempts: number;
   /** Total time elapsed in milliseconds across all retry attempts */
   totalTime: number;
   /** Array of errors from failed attempts */
   errors: Error[];
+};
+
+/**
+ * Represents the result of a generic retry operation
+ * @template T The type of data returned from the successful retry attempt
+ * @extends BaseRetryResult
+ */
+export type RetryAsyncResult<T> = BaseRetryResult & {
+  /** The data returned from the successful retry attempt */
+  data: T;
+};
+
+/**
+ * Represents the result of a retry operation specifically for fetch requests
+ * @extends BaseRetryResult
+ */
+export type RetryFetchResult = BaseRetryResult & {
+  /** The Response object returned from the successful fetch retry attempt */
+  response: Response;
 };
 
 export type FallbackFunction<T> = AsyncFunction<T>;

@@ -7,12 +7,12 @@ import {
   RetryAbortedError,
   RetryConditionFailedError,
 } from 'retry-error';
-import type {AsyncFunction, RetryAsyncOptions, RetryResult} from 'types';
+import type {AsyncFunction, RetryAsyncOptions, RetryAsyncResult} from 'types';
 
 export const retryAsync = async <T>(
   fn: AsyncFunction<T>,
   options: RetryAsyncOptions<T> = {},
-): Promise<RetryResult<T>> => {
+): Promise<RetryAsyncResult<T>> => {
   const mergedOptions = {...DEFAULT_BASE_OPTIONS, ...options};
   const startTime = Date.now();
   const errors: Error[] = [];

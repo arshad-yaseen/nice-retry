@@ -17,7 +17,7 @@ describe('retryFetch', () => {
 
     const result = await retryFetch('https://api.example.com');
 
-    expect(result.data).toBe(mockResponse);
+    expect(result.response).toBe(mockResponse);
     expect(result.attempts).toBe(1);
     expect(global.fetch).toHaveBeenCalledTimes(1);
   });
@@ -36,7 +36,7 @@ describe('retryFetch', () => {
     });
 
     const result = await promise;
-    expect(result.data).toBe(successResponse);
+    expect(result.response).toBe(successResponse);
     expect(result.attempts).toBe(2);
     expect(global.fetch).toHaveBeenCalledTimes(2);
   });
@@ -67,7 +67,7 @@ describe('retryFetch', () => {
 
     const result = await retryFetch('https://api.example.com');
 
-    expect(result.data).toBe(successResponse);
+    expect(result.response).toBe(successResponse);
     expect(result.attempts).toBe(2);
   });
 
