@@ -55,7 +55,6 @@
     "type": "git",
     "url": "git+https://github.com/arshad-yaseen/nice-retry.git"
   },
-  "homepage": "https://nice-retry.arshadyaseen.com",
   "maintainers": [
     {
       "name": "Arshad Yaseen",

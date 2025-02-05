@@ -9,8 +9,7 @@ export const DEFAULT_BASE_OPTIONS: Required<
   maxAttempts: 3,
   initialDelay: 1000,
   maxDelay: 30000,
-  backoffFactor: 2,
-  jitter: 0.1,
+  jitterStrategy: 'full',
 };
 
 /**

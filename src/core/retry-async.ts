@@ -1,3 +1,4 @@
+import {toError} from 'common-utils';
 import {DEFAULT_BASE_OPTIONS} from 'defaults';
 import {calculateDelay, delayWithAbort} from 'delay';
 import {
@@ -15,32 +16,33 @@ export const retryAsync = async <T>(
   const mergedOptions = {...DEFAULT_BASE_OPTIONS, ...options};
   const startTime = Date.now();
   const errors: Error[] = [];
+  let previousDelay = mergedOptions.initialDelay;
 
-  for (let attempt = 0; attempt < mergedOptions.maxAttempts; attempt++) {
+  for (let attempt = 1; attempt <= mergedOptions.maxAttempts; attempt++) {
     try {
       const result = await fn();
       return {
         data: result,
-        attempts: attempt + 1,
+        attempts: attempt,
         totalTime: Date.now() - startTime,
         errors,
       };
     } catch (error) {
-      const err = error instanceof Error ? error : new Error(String(error));
+      const err = toError(error);
       errors.push(err);
 
       // Check if we should abort
       if (mergedOptions.signal?.aborted) {
-        throw new RetryAbortedError(attempt + 1, errors);
+        throw new RetryAbortedError(attempt, errors);
       }
 
       // Check if we've exhausted all attempts
-      if (attempt === mergedOptions.maxAttempts - 1) {
+      if (attempt === mergedOptions.maxAttempts) {
         break;
       }
 
       if (mergedOptions.retryIf && !mergedOptions.retryIf(err)) {
-        throw new RetryConditionFailedError(attempt + 1, errors);
+        throw new RetryConditionFailedError(attempt, errors);
       }
 
       // Calculate delay for next attempt
@@ -48,12 +50,15 @@ export const retryAsync = async <T>(
         attempt,
         mergedOptions.initialDelay,
         mergedOptions.maxDelay,
-        mergedOptions.backoffFactor,
-        mergedOptions.jitter,
+        mergedOptions.jitterStrategy,
+        previousDelay,
       );
 
+      // Store this delay for next iteration
+      previousDelay = delay;
+
       // Notify about retry attempt
-      mergedOptions.onRetry?.(err, attempt + 1);
+      mergedOptions.onRetry?.(err, attempt);
 
       // Wait before next attempt
       await delayWithAbort(delay, mergedOptions.signal);
@@ -76,7 +81,7 @@ export const retryAsync = async <T>(
           errors,
         };
       } catch (error) {
-        errors.push(error instanceof Error ? error : new Error(String(error)));
+        errors.push(toError(error));
       }
     }
 

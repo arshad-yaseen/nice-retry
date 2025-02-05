@@ -11,15 +11,24 @@ export type AsyncFunction<T = any, Args extends any[] = any[]> = (
  * Represents the result of a retry operation
  */
 export type RetryResult<T> = {
+  /** The data returned from the successful retry attempt */
   data: T;
+  /** Number of attempts made before success or giving up */
   attempts: number;
+  /** Total time elapsed in milliseconds across all retry attempts */
   totalTime: number;
+  /** Array of errors from failed attempts */
   errors: Error[];
 };
 
 export type FallbackFunction<T> = AsyncFunction<T>;
 
 export type ErrorFilter = (error: Error) => boolean;
+
+/**
+ * Different strategies for adding jitter to retry delays
+ */
+export type JitterStrategy = 'full' | 'equal' | 'decorrelated' | 'none';
 
 /**
  * Base options for retry operations
@@ -45,16 +54,14 @@ export type BaseRetryOptions<T> = {
   maxDelay?: number;
 
   /**
-   * Factor to multiply the delay by after each attempt
-   * @default 2
+   * Strategy to use for adding jitter to delays
+   * - 'full': Completely random delay between 0 and calculated delay
+   * - 'equal': Random delay between calculated/2 and calculated*1.5
+   * - 'decorrelated': Independent random delays with mean = calculated
+   * - 'none': No jitter, use exact calculated delay
+   * @default 'full'
    */
-  backoffFactor?: number;
-
-  /**
-   * Random factor to add to the delay to prevent thundering herd
-   * @default 0.1
-   */
-  jitter?: number;
+  jitterStrategy?: JitterStrategy;
 
   /**
    * AbortSignal to cancel retry attempts

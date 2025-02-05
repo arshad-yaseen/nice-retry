@@ -1,25 +1,65 @@
+import {JitterStrategy} from 'types';
+
 /**
- * Calculates the delay for the next retry attempt with exponential backoff and jitter
+ * Calculates the base exponential backoff delay without jitter
+ */
+const calculateBaseDelay = (
+  attempt: number,
+  initialDelay: number,
+  maxDelay: number,
+): number => {
+  // attempt - 1 since we want first attempt to use initialDelay
+  return Math.min(maxDelay, initialDelay * Math.pow(2, attempt - 1));
+};
+
+/**
+ * Applies jitter to the base delay according to different strategies
+ */
+const applyJitter = (
+  baseDelay: number,
+  strategy: JitterStrategy,
+  previousDelay: number,
+  initialDelay: number,
+): number => {
+  switch (strategy) {
+    case 'full':
+      // Full jitter: random value between 0 and baseDelay
+      return Math.random() * baseDelay;
+
+    case 'equal': {
+      // Equal jitter: half fixed, half random
+      const half = baseDelay / 2;
+      return half + Math.random() * half;
+    }
+
+    case 'decorrelated':
+      // Decorrelated jitter: random between initial delay and 3x previous delay
+      return Math.random() * (3 * previousDelay - initialDelay) + initialDelay;
+
+    case 'none':
+      // No jitter: use exact calculated delay
+      return baseDelay;
+
+    default:
+      return baseDelay;
+  }
+};
+
+/**
+ * Calculates the delay for the next retry attempt using exponential backoff and jitter
  */
 export const calculateDelay = (
   attempt: number,
   initialDelay: number,
   maxDelay: number,
-  backoffFactor: number,
-  jitter: number,
+  jitterStrategy: JitterStrategy,
+  previousDelay?: number,
 ): number => {
-  // Calculate base delay with exponential backoff
-  const baseDelay = Math.min(
-    initialDelay * Math.pow(backoffFactor, attempt),
-    maxDelay,
-  );
+  const baseDelay = calculateBaseDelay(attempt, initialDelay, maxDelay);
 
-  // Add jitter to prevent thundering herd problem
-  const jitterAmount = baseDelay * jitter;
-  const minDelay = Math.max(0, baseDelay - jitterAmount);
-  const maxJitteredDelay = baseDelay + jitterAmount;
+  const prevDelay = previousDelay ?? initialDelay;
 
-  return Math.random() * (maxJitteredDelay - minDelay) + minDelay;
+  return applyJitter(baseDelay, jitterStrategy, prevDelay, initialDelay);
 };
 
 /**
@@ -37,13 +77,18 @@ export const delayWithAbort = (
     const timer = setTimeout(resolve, ms);
 
     if (signal) {
-      signal.addEventListener(
-        'abort',
-        () => {
-          clearTimeout(timer);
-          reject(new DOMException('Aborted', 'AbortError'));
-        },
-        {once: true},
+      const abortHandler = () => {
+        clearTimeout(timer);
+        reject(new DOMException('Aborted', 'AbortError'));
+      };
+
+      signal.addEventListener('abort', abortHandler, {once: true});
+
+      // Clean up listener both on success and failure
+      const cleanup = () => signal.removeEventListener('abort', abortHandler);
+      Promise.prototype.finally.call(
+        new Promise(res => setTimeout(res, ms)),
+        cleanup,
       );
     }
   });
