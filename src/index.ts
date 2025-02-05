@@ -24,6 +24,7 @@ export type {
   RetryFetchResult,
 } from 'types';
 export {
+  RetryError,
   RetryConditionFailedError,
   MaxRetriesExceededError,
   RetryAbortedError,
