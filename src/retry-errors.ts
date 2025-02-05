@@ -1,6 +1,3 @@
-/**
- * Error for retry-related errors
- */
 export class RetryError extends Error {
   public readonly cause?: Error;
   public readonly attempts: number;
@@ -13,49 +10,40 @@ export class RetryError extends Error {
     this.errors = errors;
     this.cause = errors[errors.length - 1];
 
-    // Maintains proper stack trace for where our error was thrown
     if (Error.captureStackTrace) {
       Error.captureStackTrace(this, RetryError);
     }
   }
 }
 
-/**
- * Error thrown when all retry attempts are exhausted
- */
 export class MaxRetriesExceededError extends RetryError {
   constructor(attempts: number, errors: Error[] = []) {
-    super(`Max retries (${attempts}) exceeded`, attempts, errors);
+    super(`Failed after ${attempts} attempts`, attempts, errors);
     this.name = 'MaxRetriesExceededError';
   }
 }
 
-/**
- * Error thrown when the retry condition (retryIf) returns false
- */
 export class RetryConditionFailedError extends RetryError {
   constructor(attempts: number, errors: Error[] = []) {
-    super('Retry condition returned false', attempts, errors);
+    super(
+      'Operation failed and retry condition prevented further attempts',
+      attempts,
+      errors,
+    );
     this.name = 'RetryConditionFailedError';
   }
 }
 
-/**
- * Error thrown when the retry operation is aborted
- */
 export class RetryAbortedError extends RetryError {
   constructor(attempts: number, errors: Error[] = []) {
-    super('Retry operation aborted', attempts, errors);
+    super('Operation was cancelled before completion', attempts, errors);
     this.name = 'RetryAbortedError';
   }
 }
 
-/**
- * Error thrown when all fallbacks fail
- */
 export class FallbackError extends RetryError {
   constructor(attempts: number, errors: Error[] = []) {
-    super('All fallback attempts failed', attempts, errors);
+    super('Main operation and all fallback attempts failed', attempts, errors);
     this.name = 'FallbackError';
   }
 }

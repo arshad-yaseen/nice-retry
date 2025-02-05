@@ -1,11 +1,8 @@
-
-
 ## [0.1.7](https://github.com/arshad-yaseen/nice-retry/compare/0.1.6...0.1.7) (2025-02-05)
-
 
 ### 📚 Documentation
 
-* add toc ([0e1c79e](https://github.com/arshad-yaseen/nice-retry/commit/0e1c79e0e34ac0e7fd06870808a46131122b1665))
+- add toc ([0e1c79e](https://github.com/arshad-yaseen/nice-retry/commit/0e1c79e0e34ac0e7fd06870808a46131122b1665))
 
 ## [0.1.6](https://github.com/arshad-yaseen/nice-retry/compare/0.1.5...0.1.6) (2025-02-05)
 
