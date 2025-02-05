@@ -1,7 +1,7 @@
 {
   "name": "nice-retry",
   "version": "0.1.0",
-  "description": "🦜 Type-safe, lightweight (zero-dependency) retry utility for async operations that just works.",
+  "description": "Type-safe, lightweight (zero-dependency) retry utility for async operations that simply works.",
   "main": "./build/index.js",
   "module": "./build/index.mjs",
   "types": "./build/index.d.ts",
@@ -14,11 +14,9 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
-    "dev:test-ui": "pnpm -C tests/ui dev",
     "tsc": "tsc --noEmit",
     "lint": "eslint . --ext .ts,.tsx --fix",
-    "lint:test-ui": "pnpm -C tests/ui lint",
-    "validate": "pnpm build && pnpm format && pnpm tsc && pnpm lint && pnpm lint:test-ui",
+    "validate": "pnpm build && pnpm format && pnpm tsc && pnpm lint",
     "format": "prettier --write .",
     "release": "release-it",
     "prepare": "husky"
@@ -39,16 +37,19 @@
     "vitest": "^2.0.5"
   },
   "keywords": [
-    "autocomplete",
-    "ghost-text",
-    "text-suggestions",
-    "input-hints",
-    "search-suggestions",
-    "text-prediction",
-    "textarea-completion",
-    "input-completion",
-    "typeahead",
-    "intelligent-suggestions"
+    "retry",
+    "async",
+    "promise",
+    "retry-async",
+    "retry-promise",
+    "retry-operation",
+    "retry-request",
+    "backoff",
+    "exponential-backoff",
+    "error-handling",
+    "promise-retry",
+    "retry-fetch",
+    "p-retry"
   ],
   "repository": {
     "type": "git",

@@ -7,7 +7,6 @@ export type AsyncFunction<T = any, Args extends any[] = any[]> = (
   ...args: Args
 ) => Awaitable<T>;
 
-
 /**
  * Represents the result of a retry operation
  */
@@ -23,67 +22,81 @@ export type FallbackFunction<T> = AsyncFunction<T>;
 export type ErrorFilter = (error: Error) => boolean;
 
 /**
- * Configuration options for retry behavior
+ * Base options for retry operations
+ * @template T The type of data being returned by the retried function
  */
-export type RetryOptions<T> = {
+export type BaseRetryOptions<T> = {
   /**
-   * Maximum number of retry attempts
+   * Maximum number of retry attempts before giving up
    * @default 3
    */
   maxAttempts?: number;
 
   /**
-   * Initial delay in milliseconds
+   * Initial delay in milliseconds between retry attempts
    * @default 1000
    */
   initialDelay?: number;
 
   /**
-   * Maximum delay in milliseconds
+   * Maximum delay in milliseconds between retry attempts
    * @default 30000
    */
   maxDelay?: number;
 
   /**
-   * Exponential backoff factor
+   * Factor to multiply the delay by after each attempt
    * @default 2
    */
   backoffFactor?: number;
 
   /**
-   * Jitter factor to randomize delay (0-1)
+   * Random factor to add to the delay to prevent thundering herd
    * @default 0.1
    */
   jitter?: number;
 
   /**
-   * Abort signal to cancel retries
+   * AbortSignal to cancel retry attempts
    */
   signal?: AbortSignal;
 
   /**
-   * Single or multiple fallback functions
+   * Fallback function(s) to try if all retries fail
    */
   fallback?: FallbackFunction<T> | FallbackFunction<T>[];
 
   /**
-   * Custom error filter function
+   * Function to determine if a particular error should trigger a retry
    */
   retryIf?: ErrorFilter;
 
   /**
-   * HTTP status codes to retry on
+   * Callback function called before each retry attempt
+   * @param error The error that triggered the retry
+   * @param attempt The number of the upcoming retry attempt
    */
-  retryStatusCodes?: number[];
+  onRetry?: (error: Error, attempt: number) => void;
+};
+
+/**
+ * Options specific to retryAsync
+ */
+export type RetryAsyncOptions<T> = BaseRetryOptions<T>;
+
+/**
+ * Options specific to retryFetch
+ */
+export type RetryFetchOptions<T> = BaseRetryOptions<T> & {
+  /**
+   * HTTP status codes to retry on
+   * @default [408, 429, 500, 502, 503, 504]
+   */
+  retryStatusCodes?: readonly number[];
 
   /**
    * Whether to retry on network errors
    * @default true
    */
   retryNetworkErrors?: boolean;
-
-  /**
-   * Callback function for retry attempts
-   */
-  onRetry?: (error: Error, attempt: number) => void;
 };

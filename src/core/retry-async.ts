@@ -1,18 +1,18 @@
+import {DEFAULT_BASE_OPTIONS} from 'defaults';
+import {calculateDelay, delayWithAbort} from 'delay';
 import {
   FallbackError,
   MaxRetriesExceededError,
   RetryAbortedError,
+  RetryConditionFailedError,
 } from 'retry-error';
-import { calculateDelay, delayWithAbort } from 'delay';
-import type { AsyncFunction, RetryOptions, RetryResult } from 'types';
-import { DEFAULT_OPTIONS } from 'defaults';
-import { isNetworkError, isRetryableHttpError } from 'error-predicates';
+import type {AsyncFunction, RetryAsyncOptions, RetryResult} from 'types';
 
 export const retryAsync = async <T>(
   fn: AsyncFunction<T>,
-  options: RetryOptions<T> = {}
+  options: RetryAsyncOptions<T> = {},
 ): Promise<RetryResult<T>> => {
-  const mergedOptions = { ...DEFAULT_OPTIONS, ...options };
+  const mergedOptions = {...DEFAULT_BASE_OPTIONS, ...options};
   const startTime = Date.now();
   const errors: Error[] = [];
 
@@ -39,14 +39,8 @@ export const retryAsync = async <T>(
         break;
       }
 
-      // Check if we should retry based on the error
-      const shouldRetry =
-        (mergedOptions.retryNetworkErrors && isNetworkError(err)) ||
-        isRetryableHttpError(err, mergedOptions.retryStatusCodes) ||
-        (mergedOptions.retryIf && mergedOptions.retryIf(err));
-
-      if (!shouldRetry) {
-        break;
+      if (mergedOptions.retryIf && !mergedOptions.retryIf(err)) {
+        throw new RetryConditionFailedError(attempt + 1, errors);
       }
 
       // Calculate delay for next attempt
@@ -55,7 +49,7 @@ export const retryAsync = async <T>(
         mergedOptions.initialDelay,
         mergedOptions.maxDelay,
         mergedOptions.backoffFactor,
-        mergedOptions.jitter
+        mergedOptions.jitter,
       );
 
       // Notify about retry attempt
@@ -90,4 +84,4 @@ export const retryAsync = async <T>(
   }
 
   throw new MaxRetriesExceededError(mergedOptions.maxAttempts, errors);
-} 
+};

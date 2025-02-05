@@ -6,12 +6,12 @@ export const calculateDelay = (
   initialDelay: number,
   maxDelay: number,
   backoffFactor: number,
-  jitter: number
+  jitter: number,
 ): number => {
   // Calculate base delay with exponential backoff
   const baseDelay = Math.min(
     initialDelay * Math.pow(backoffFactor, attempt),
-    maxDelay
+    maxDelay,
   );
 
   // Add jitter to prevent thundering herd problem
@@ -27,7 +27,7 @@ export const calculateDelay = (
  */
 export const delayWithAbort = (
   ms: number,
-  signal?: AbortSignal
+  signal?: AbortSignal,
 ): Promise<void> => {
   if (signal?.aborted) {
     return Promise.reject(new DOMException('Aborted', 'AbortError'));
@@ -37,10 +37,14 @@ export const delayWithAbort = (
     const timer = setTimeout(resolve, ms);
 
     if (signal) {
-      signal.addEventListener('abort', () => {
-        clearTimeout(timer);
-        reject(new DOMException('Aborted', 'AbortError'));
-      }, { once: true });
+      signal.addEventListener(
+        'abort',
+        () => {
+          clearTimeout(timer);
+          reject(new DOMException('Aborted', 'AbortError'));
+        },
+        {once: true},
+      );
     }
   });
-}; 
+};

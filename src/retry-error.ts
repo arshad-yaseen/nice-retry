@@ -31,6 +31,16 @@ export class MaxRetriesExceededError extends RetryError {
 }
 
 /**
+ * Error thrown when the retry condition (retryIf) returns false
+ */
+export class RetryConditionFailedError extends RetryError {
+  constructor(attempts: number, errors: Error[] = []) {
+    super('Retry condition returned false', attempts, errors);
+    this.name = 'RetryConditionFailedError';
+  }
+}
+
+/**
  * Error thrown when the retry operation is aborted
  */
 export class RetryAbortedError extends RetryError {
@@ -48,4 +58,4 @@ export class FallbackError extends RetryError {
     super('All fallback attempts failed', attempts, errors);
     this.name = 'FallbackError';
   }
-} 
+}

@@ -17,12 +17,15 @@ export const isNetworkError = (error: Error): boolean => {
   return false;
 };
 
-export const isRetryableHttpError = (error: Error, retryStatusCodes?: number[]): boolean => {
+export const isRetryableHttpError = (
+  error: Error,
+  retryStatusCodes?: readonly number[],
+): boolean => {
   if (!retryStatusCodes) return false;
-  
+
   if ('status' in error && typeof (error as any).status === 'number') {
     return retryStatusCodes.includes((error as any).status);
   }
-  
+
   return false;
 };
