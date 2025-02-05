@@ -1,11 +1,17 @@
 
 
-## [0.1.8](https://github.com/arshad-yaseen/nice-retry/compare/0.1.7...0.1.8) (2025-02-05)
+## [0.1.9](https://github.com/arshad-yaseen/nice-retry/compare/0.1.8...0.1.9) (2025-02-05)
 
 
 ### 🔧 Maintenance
 
-* improve error messages ([599fe4f](https://github.com/arshad-yaseen/nice-retry/commit/599fe4f4e6b16964957ff422154357c2a558b817))
+* export RetryError ([ac34316](https://github.com/arshad-yaseen/nice-retry/commit/ac3431642f97368355fdb3ccf8b9f11c7f349bca))
+
+## [0.1.8](https://github.com/arshad-yaseen/nice-retry/compare/0.1.7...0.1.8) (2025-02-05)
+
+### 🔧 Maintenance
+
+- improve error messages ([599fe4f](https://github.com/arshad-yaseen/nice-retry/commit/599fe4f4e6b16964957ff422154357c2a558b817))
 
 ## [0.1.7](https://github.com/arshad-yaseen/nice-retry/compare/0.1.6...0.1.7) (2025-02-05)
 
