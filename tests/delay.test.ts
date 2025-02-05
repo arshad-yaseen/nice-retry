@@ -136,7 +136,7 @@ describe('Delay Functions', () => {
         new DOMException('Aborted', 'AbortError'),
       );
     });
-    
+
     it('should clear timeout when aborted', async () => {
       const controller = new AbortController();
       const clearTimeoutSpy = vi.spyOn(global, 'clearTimeout');
