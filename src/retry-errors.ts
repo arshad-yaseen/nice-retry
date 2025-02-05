@@ -1,29 +1,27 @@
-export class RetryError extends Error {
+import {NiceRetryError} from './common-errors';
+
+export class RetryOperationError extends NiceRetryError {
   public readonly cause?: Error;
   public readonly attempts: number;
   public readonly errors: Error[];
 
   constructor(message: string, attempts: number, errors: Error[] = []) {
     super(message);
-    this.name = 'RetryError';
+    this.name = 'RetryOperationError';
     this.attempts = attempts;
     this.errors = errors;
     this.cause = errors[errors.length - 1];
-
-    if (Error.captureStackTrace) {
-      Error.captureStackTrace(this, RetryError);
-    }
   }
 }
 
-export class MaxRetriesExceededError extends RetryError {
+export class MaxRetriesExceededError extends RetryOperationError {
   constructor(attempts: number, errors: Error[] = []) {
     super(`Failed after ${attempts} attempts`, attempts, errors);
     this.name = 'MaxRetriesExceededError';
   }
 }
 
-export class RetryConditionFailedError extends RetryError {
+export class RetryConditionFailedError extends RetryOperationError {
   constructor(attempts: number, errors: Error[] = []) {
     super(
       'Operation failed and retry condition prevented further attempts',
@@ -34,14 +32,14 @@ export class RetryConditionFailedError extends RetryError {
   }
 }
 
-export class RetryAbortedError extends RetryError {
+export class RetryAbortedError extends RetryOperationError {
   constructor(attempts: number, errors: Error[] = []) {
     super('Operation was cancelled before completion', attempts, errors);
     this.name = 'RetryAbortedError';
   }
 }
 
-export class FallbackError extends RetryError {
+export class FallbackError extends RetryOperationError {
   constructor(attempts: number, errors: Error[] = []) {
     super('Main operation and all fallback attempts failed', attempts, errors);
     this.name = 'FallbackError';

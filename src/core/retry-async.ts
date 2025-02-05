@@ -54,6 +54,7 @@ export const retryAsync = async <T>(
         mergedOptions.initialDelay,
         mergedOptions.maxDelay,
         mergedOptions.jitterStrategy,
+        mergedOptions.backoffFactor,
         previousDelay,
       );
 

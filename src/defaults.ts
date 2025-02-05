@@ -10,6 +10,7 @@ export const DEFAULT_BASE_OPTIONS: Required<
   initialDelay: 1000,
   maxDelay: 30000,
   jitterStrategy: 'full',
+  backoffFactor: 2,
 };
 
 /**

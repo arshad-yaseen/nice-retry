@@ -1,3 +1,4 @@
+import {InvalidBackoffFactorError} from 'common-errors';
 import {calculateDelay} from 'delay-calcs';
 import {afterEach, beforeEach, describe, expect, it, vi} from 'vitest';
 
@@ -14,7 +15,7 @@ describe('Delay Functions', () => {
 
     describe('Base Exponential Backoff', () => {
       it('should follow standard exponential backoff formula for first attempt', () => {
-        const result = calculateDelay(1, 1000, 64000, 'none');
+        const result = calculateDelay(1, 1000, 64000, 'none', 2);
         // First attempt should equal initial delay
         expect(result).toBe(1000);
       });
@@ -35,13 +36,14 @@ describe('Delay Functions', () => {
             initialDelay,
             maxDelay,
             'none',
+            2,
           );
           expect(result).toBe(expectedDelays[index]);
         });
       });
 
       it('should respect maximum delay boundary', () => {
-        const result = calculateDelay(10, 1000, 64000, 'none');
+        const result = calculateDelay(10, 1000, 64000, 'none', 2);
         expect(result).toBe(64000);
       });
     });
@@ -53,7 +55,7 @@ describe('Delay Functions', () => {
       describe('Full Jitter', () => {
         it('should apply full jitter according to AWS recommendations', () => {
           const baseDelay = 2000; // Second attempt
-          const result = calculateDelay(2, initialDelay, maxDelay, 'full');
+          const result = calculateDelay(2, initialDelay, maxDelay, 'full', 2);
           // With mocked Math.random() = 0.5, should be half of base delay
           expect(result).toBe(baseDelay * 0.5);
         });
@@ -62,7 +64,7 @@ describe('Delay Functions', () => {
       describe('Equal Jitter', () => {
         it('should implement equal jitter as per standard algorithm', () => {
           const baseDelay = 2000;
-          const result = calculateDelay(2, initialDelay, maxDelay, 'equal');
+          const result = calculateDelay(2, initialDelay, maxDelay, 'equal', 2);
           // Half fixed + half random (with mocked 0.5)
           const expected = baseDelay / 2 + (baseDelay / 2) * 0.5;
           expect(result).toBe(expected);
@@ -91,11 +93,63 @@ describe('Delay Functions', () => {
             initialDelay,
             maxDelay,
             'decorrelated',
+            2,
           );
           const expected =
             0.5 * (3 * initialDelay - initialDelay) + initialDelay;
           expect(result).toBe(expected);
         });
+      });
+    });
+
+    describe('Backoff Factor', () => {
+      it('should use custom backoff factor', () => {
+        const initialDelay = 1000;
+        const maxDelay = 64000;
+        const backoffFactor = 3; // Triple the delay each time
+
+        const attempts = [1, 2, 3, 4];
+        const expectedDelays = attempts.map(attempt =>
+          Math.min(
+            maxDelay,
+            initialDelay * Math.pow(backoffFactor, attempt - 1),
+          ),
+        );
+
+        attempts.forEach((attempt, index) => {
+          const result = calculateDelay(
+            attempt,
+            initialDelay,
+            maxDelay,
+            'none',
+            backoffFactor,
+          );
+          expect(result).toBe(expectedDelays[index]);
+        });
+      });
+
+      it('should use linear backoff when factor is 1', () => {
+        const initialDelay = 1000;
+        const maxDelay = 64000;
+        const backoffFactor = 1;
+
+        const attempts = [1, 2, 3, 4];
+        attempts.forEach(attempt => {
+          const result = calculateDelay(
+            attempt,
+            initialDelay,
+            maxDelay,
+            'none',
+            backoffFactor,
+          );
+          expect(result).toBe(initialDelay); // Should stay constant
+        });
+      });
+
+      it('should throw error for invalid backoff factor', () => {
+        expect(() => calculateDelay(1, 1000, 64000, 'none', 0.5)).toThrow(
+          InvalidBackoffFactorError,
+        );
       });
     });
   });

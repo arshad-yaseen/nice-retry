@@ -98,6 +98,15 @@ export type BaseRetryOptions<T> = {
    * @param attempt The number of the upcoming retry attempt
    */
   onRetry?: (error: Error, attempt: number) => void;
+
+  /**
+   * Factor to multiply the delay by after each attempt
+   * Default is 2 (standard exponential backoff)
+   * Set to 1 for linear backoff
+   * Must be >= 1
+   * @default 2
+   */
+  backoffFactor?: number;
 };
 
 /**

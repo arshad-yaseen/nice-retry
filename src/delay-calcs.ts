@@ -1,12 +1,17 @@
+import {InvalidBackoffFactorError} from 'common-errors';
 import {JitterStrategy} from 'types';
 
 export const calculateBaseDelay = (
   attempt: number,
   initialDelay: number,
   maxDelay: number,
+  backoffFactor: number,
 ): number => {
   // attempt - 1 since we want first attempt to use initialDelay
-  return Math.min(maxDelay, initialDelay * Math.pow(2, attempt - 1));
+  return Math.min(
+    maxDelay,
+    initialDelay * Math.pow(backoffFactor, attempt - 1),
+  );
 };
 
 export const applyJitter = (
@@ -47,9 +52,19 @@ export const calculateDelay = (
   initialDelay: number,
   maxDelay: number,
   jitterStrategy: JitterStrategy,
+  backoffFactor: number,
   previousDelay?: number,
 ): number => {
-  const baseDelay = calculateBaseDelay(attempt, initialDelay, maxDelay);
+  if (backoffFactor < 1) {
+    throw new InvalidBackoffFactorError(backoffFactor);
+  }
+
+  const baseDelay = calculateBaseDelay(
+    attempt,
+    initialDelay,
+    maxDelay,
+    backoffFactor,
+  );
 
   const prevDelay = previousDelay ?? initialDelay;
 

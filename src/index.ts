@@ -23,10 +23,13 @@ export type {
   RetryAsyncResult,
   RetryFetchResult,
 } from 'types';
+
 export {
-  RetryError,
+  RetryOperationError,
   RetryConditionFailedError,
   MaxRetriesExceededError,
   RetryAbortedError,
   FallbackError,
 } from 'retry-errors';
+
+export {InvalidBackoffFactorError} from 'common-errors';
