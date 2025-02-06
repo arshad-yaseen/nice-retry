@@ -1,10 +1,17 @@
 
 
+## [0.3.1](https://github.com/arshad-yaseen/nice-retry/compare/0.3.0...0.3.1) (2025-02-06)
+
+
+### 📚 Documentation
+
+* add default labels ([171c74f](https://github.com/arshad-yaseen/nice-retry/commit/171c74f5fe2c5c88c6ac7d118954a792c57a3610))
+
 ## [0.3.0](https://github.com/arshad-yaseen/nice-retry/compare/0.2.0...0.3.0) (2025-02-06)
 
 ### 🚀 Features
 
-* backoffStrategy option ([ea0d180](https://github.com/arshad-yaseen/nice-retry/commit/ea0d1804122695efc501dde89f049b989fbeaf96))
+- backoffStrategy option ([ea0d180](https://github.com/arshad-yaseen/nice-retry/commit/ea0d1804122695efc501dde89f049b989fbeaf96))
 
 ## [0.2.0](https://github.com/arshad-yaseen/nice-retry/compare/0.1.9...0.2.0) (2025-02-05)
 
