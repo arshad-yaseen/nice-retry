@@ -3,8 +3,8 @@
   "version": "0.3.1",
   "description": "Type-safe, lightweight (zero-dependency) retry utility for async operations that simply works.",
   "main": "./build/index.js",
-  "module": "./build/index.mjs",
   "types": "./build/index.d.ts",
+  "module": "./build/index.mjs",
   "files": [
     "build"
   ],
