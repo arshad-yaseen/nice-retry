@@ -22,6 +22,8 @@ export type {
   RetryFetchOptions,
   RetryAsyncResult,
   RetryFetchResult,
+  BackoffStrategy,
+  JitterStrategy,
 } from 'types';
 
 export {
@@ -31,5 +33,3 @@ export {
   RetryAbortedError,
   FallbackError,
 } from 'retry-errors';
-
-export {InvalidBackoffFactorError} from 'common-errors';

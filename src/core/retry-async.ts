@@ -1,5 +1,4 @@
 import {checkAborted} from 'abort-handler';
-import {delay, toError} from 'common-utils';
 import {DEFAULT_BASE_OPTIONS} from 'defaults';
 import {calculateDelay} from 'delay-calcs';
 import {
@@ -8,6 +7,7 @@ import {
   RetryConditionFailedError,
 } from 'retry-errors';
 import type {AsyncFunction, RetryAsyncOptions, RetryAsyncResult} from 'types';
+import {delay, toError} from 'utils';
 
 export const retryAsync = async <T>(
   fn: AsyncFunction<T>,
@@ -54,7 +54,7 @@ export const retryAsync = async <T>(
         mergedOptions.initialDelay,
         mergedOptions.maxDelay,
         mergedOptions.jitterStrategy,
-        mergedOptions.backoffFactor,
+        mergedOptions.backoffStrategy,
         previousDelay,
       );
 

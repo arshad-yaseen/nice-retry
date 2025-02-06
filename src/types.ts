@@ -7,34 +7,6 @@ export type AsyncFunction<T = any, Args extends any[] = any[]> = (
   ...args: Args
 ) => Awaitable<T>;
 
-export type BaseRetryResult = {
-  /** Number of attempts made before success or giving up */
-  attempts: number;
-  /** Total time elapsed in milliseconds across all retry attempts */
-  totalTime: number;
-  /** Array of errors from failed attempts */
-  errors: Error[];
-};
-
-/**
- * Represents the result of a generic retry operation
- * @template T The type of data returned from the successful retry attempt
- * @extends BaseRetryResult
- */
-export type RetryAsyncResult<T> = BaseRetryResult & {
-  /** The data returned from the successful retry attempt */
-  data: T;
-};
-
-/**
- * Represents the result of a retry operation specifically for fetch requests
- * @extends BaseRetryResult
- */
-export type RetryFetchResult = BaseRetryResult & {
-  /** The Response object returned from the successful fetch retry attempt */
-  response: Response;
-};
-
 export type FallbackFunction<T> = AsyncFunction<T>;
 
 export type ErrorFilter = (error: Error) => boolean;
@@ -43,6 +15,11 @@ export type ErrorFilter = (error: Error) => boolean;
  * Different strategies for adding jitter to retry delays
  */
 export type JitterStrategy = 'full' | 'equal' | 'decorrelated' | 'none';
+
+/**
+ * Different strategies for increasing delay between retries
+ */
+export type BackoffStrategy = 'exponential' | 'fixed' | 'linear' | 'aggressive';
 
 /**
  * Base options for retry operations
@@ -78,6 +55,16 @@ export type BaseRetryOptions<T> = {
   jitterStrategy?: JitterStrategy;
 
   /**
+   * Strategy for increasing delay between retries
+   * - `exponential`: Doubles delay each time (1s → 2s → 4s → 8s)
+   * - `linear`: Increases delay linearly (1s → 2s → 3s → 4s)
+   * - `aggressive`: Triples delay each time (1s → 3s → 9s → 27s)
+   * - `fixed`: Keeps delay constant (1s → 1s → 1s)
+   * @default `exponential`
+   */
+  backoffStrategy?: BackoffStrategy;
+
+  /**
    * AbortSignal to cancel retry attempts
    */
   signal?: AbortSignal;
@@ -98,15 +85,6 @@ export type BaseRetryOptions<T> = {
    * @param attempt The number of the upcoming retry attempt
    */
   onRetry?: (error: Error, attempt: number) => void;
-
-  /**
-   * Factor to multiply the delay by after each attempt
-   * Default is 2 (standard exponential backoff)
-   * Set to 1 for linear backoff
-   * Must be >= 1
-   * @default 2
-   */
-  backoffFactor?: number;
 };
 
 /**
@@ -129,4 +107,32 @@ export type RetryFetchOptions<T> = BaseRetryOptions<T> & {
    * @default true
    */
   retryNetworkErrors?: boolean;
+};
+
+export type BaseRetryResult = {
+  /** Number of attempts made before success or giving up */
+  attempts: number;
+  /** Total time elapsed in milliseconds across all retry attempts */
+  totalTime: number;
+  /** Array of errors from failed attempts */
+  errors: Error[];
+};
+
+/**
+ * Represents the result of a generic retry operation
+ * @template T The type of data returned from the successful retry attempt
+ * @extends BaseRetryResult
+ */
+export type RetryAsyncResult<T> = BaseRetryResult & {
+  /** The data returned from the successful retry attempt */
+  data: T;
+};
+
+/**
+ * Represents the result of a retry operation specifically for fetch requests
+ * @extends BaseRetryResult
+ */
+export type RetryFetchResult = BaseRetryResult & {
+  /** The Response object returned from the successful fetch retry attempt */
+  response: Response;
 };

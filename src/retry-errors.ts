@@ -1,6 +1,4 @@
-import {NiceRetryError} from './common-errors';
-
-export class RetryOperationError extends NiceRetryError {
+export class RetryOperationError extends Error {
   public readonly cause?: Error;
   public readonly attempts: number;
   public readonly errors: Error[];

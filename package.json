@@ -12,6 +12,7 @@
     "build": "tsup src/index.ts",
     "dev": "tsup src/index.ts --watch",
     "test": "vitest run",
+    "test:playground": "node test-playground.mjs",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
     "tsc": "tsc --noEmit",

@@ -10,7 +10,7 @@ A powerful, flexible, and developer-friendly retry utility for JavaScript/TypeSc
 - 🚀 Two powerful retry functions:
   - `retry.async()` for any async operations
   - `retry.fetch()` specifically optimized for fetch requests
-- 🔄 Smart exponential backoff with multiple jitter strategies
+- 🔄 Multiple backoff strategies (exponential, linear, fixed, aggressive) with configurable jitter options (full, equal, decorrelated)
 - 🎯 Configurable retry conditions with built-in error predicates
 - 🔌 Fallback mechanism with support for multiple fallback functions
 - ⚡ Abort support using standard AbortController
@@ -62,7 +62,6 @@ Configure the timing between retry attempts:
 const result = await retry.async(fn, {
   initialDelay: 1000, // Start with 1 second delay
   maxDelay: 30000, // Never wait more than 30 seconds
-  backoffFactor: 2, // Double the delay after each attempt
 });
 ```
 
@@ -143,40 +142,60 @@ const result = await retry.fetch('https://api.example.com/data', {
 
 ## Advanced Topics
 
-### Jitter Strategies
+### Backoff Strategies
 
-Choose from four strategies to add randomization to retry delays:
+Backoff is a technique that progressively increases the delay between retry attempts. This helps prevent overwhelming the system being called and allows it time to recover from any issues. Like gradually stepping back when something's not working, rather than continuously trying at the same rate.
 
 ```typescript
 const result = await retry.async(fn, {
-  jitterStrategy: 'full', // Completely random delay
+  backoffStrategy: 'exponential', // Doubles delay each time (1s → 2s → 4s → 8s)
   // or
-  jitterStrategy: 'equal', // Balanced randomization
+  backoffStrategy: 'linear', // Increases delay linearly (1s → 2s → 3s → 4s)
   // or
-  jitterStrategy: 'decorrelated', // Independent random delays
+  backoffStrategy: 'aggressive', // Triples delay each time (1s → 3s → 9s → 27s)
   // or
-  jitterStrategy: 'none', // No randomization
+  backoffStrategy: 'fixed', // Keeps delay constant (1s → 1s → 1s)
 });
 ```
 
-### Backoff Mechanisms
+Each backoff strategy serves different use cases:
 
-Control how delay increases between retries:
+- `exponential`: Best for most scenarios, provides good balance between quick retries and preventing system overload
+- `linear`: Useful when you want gradual increase in delay without exponential growth
+- `aggressive`: For scenarios requiring more aggressive backing off to reduce system load
+- `fixed`: When consistent retry intervals are needed
+
+### Jitter Strategies
+
+Jitter adds randomness to retry delays to prevent multiple clients from retrying at exactly the same time. This is particularly important in distributed systems where synchronized retries could cause "thundering herd" problems - where many clients hit a service simultaneously after a failure.
 
 ```typescript
-// Exponential backoff (doubles each time)
 const result = await retry.async(fn, {
-  backoffFactor: 2, // 1s → 2s → 4s → 8s
+  jitterStrategy: 'full', // Completely random delay between 0 and calculated delay
+  // or
+  jitterStrategy: 'equal', // Random delay between calculated/2 and calculated*1.5
+  // or
+  jitterStrategy: 'decorrelated', // Independent random delays with mean = calculated
+  // or
+  jitterStrategy: 'none', // No randomization, use exact calculated delay
 });
+```
 
-// Aggressive backoff
-const result = await retry.async(fn, {
-  backoffFactor: 3, // 1s → 3s → 9s → 27s
-});
+Each jitter strategy serves different purposes:
 
-// Linear backoff (constant delay)
+- `full`: Maximum randomization, best for preventing synchronized retries
+- `equal`: Balanced randomization that maintains minimum delay threshold
+- `decorrelated`: Independent randomization, good for distributed systems
+- `none`: No randomization, predictable delays (not recommended for distributed systems)
+
+Example with both strategies:
+
+```typescript
 const result = await retry.async(fn, {
-  backoffFactor: 1, // 1s → 1s → 1s
+  initialDelay: 1000,
+  maxDelay: 30000,
+  backoffStrategy: 'exponential',
+  jitterStrategy: 'full',
 });
 ```
 

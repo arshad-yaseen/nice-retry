@@ -92,6 +92,36 @@ pnpm dev
 
 This is useful for continuous development and testing.
 
+## Testing nice-retry Locally
+
+The root test-playground.mjs file is provided for quick testing of the module during development. This is especially useful when:
+
+- Adding new features
+- Modifying existing functionality
+- Testing package changes
+
+To use the playground:
+
+1. First build the package to reflect your changes:
+
+   ```bash
+   pnpm build
+   ```
+
+   Or start watch mode for real-time testing:
+
+   ```bash
+   pnpm dev
+   ```
+
+2. Run the playground:
+
+   ```bash
+   pnpm test:playground
+   ```
+
+The playground will automatically use your latest built changes when running in watch mode, making it perfect for rapid development and testing.
+
 ## Documentation
 
 Comprehensive documentation is essential.
