@@ -277,12 +277,12 @@ nice-retry is written in TypeScript and provides comprehensive type definitions:
 ```typescript
 // These types are available for import:
 import type {
-  RetryAsyncOptions,
-  RetryFetchOptions,
-  RetryAsyncResult,
-  RetryFetchResult,
   BackoffStrategy,
   JitterStrategy,
+  RetryAsyncOptions,
+  RetryAsyncResult,
+  RetryFetchOptions,
+  RetryFetchResult,
 } from 'nice-retry';
 
 interface MyCustomError extends Error {
