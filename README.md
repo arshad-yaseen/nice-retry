@@ -148,7 +148,7 @@ Backoff is a technique that progressively increases the delay between retry atte
 
 ```typescript
 const result = await retry.async(fn, {
-  backoffStrategy: 'exponential', // Doubles delay each time (1s → 2s → 4s → 8s)
+  backoffStrategy: 'exponential', // (default) Doubles delay each time (1s → 2s → 4s → 8s)
   // or
   backoffStrategy: 'linear', // Increases delay linearly (1s → 2s → 3s → 4s)
   // or
@@ -160,7 +160,7 @@ const result = await retry.async(fn, {
 
 Each backoff strategy serves different use cases:
 
-- `exponential`: Best for most scenarios, provides good balance between quick retries and preventing system overload
+- `exponential` (default): Best for most scenarios, provides good balance between quick retries and preventing system overload
 - `linear`: Useful when you want gradual increase in delay without exponential growth
 - `aggressive`: For scenarios requiring more aggressive backing off to reduce system load
 - `fixed`: When consistent retry intervals are needed
@@ -171,7 +171,7 @@ Jitter adds randomness to retry delays to prevent multiple clients from retrying
 
 ```typescript
 const result = await retry.async(fn, {
-  jitterStrategy: 'full', // Completely random delay between 0 and calculated delay
+  jitterStrategy: 'full', // (default) Completely random delay between 0 and calculated delay
   // or
   jitterStrategy: 'equal', // Random delay between calculated/2 and calculated*1.5
   // or
@@ -183,7 +183,7 @@ const result = await retry.async(fn, {
 
 Each jitter strategy serves different purposes:
 
-- `full`: Maximum randomization, best for preventing synchronized retries
+- `full` (default): Maximum randomization, best for preventing synchronized retries
 - `equal`: Balanced randomization that maintains minimum delay threshold
 - `decorrelated`: Independent randomization, good for distributed systems
 - `none`: No randomization, predictable delays (not recommended for distributed systems)

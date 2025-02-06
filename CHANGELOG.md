@@ -2,7 +2,6 @@
 
 ## [0.3.0](https://github.com/arshad-yaseen/nice-retry/compare/0.2.0...0.3.0) (2025-02-06)
 
-
 ### 🚀 Features
 
 * backoffStrategy option ([ea0d180](https://github.com/arshad-yaseen/nice-retry/commit/ea0d1804122695efc501dde89f049b989fbeaf96))
