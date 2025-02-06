@@ -3,20 +3,11 @@
 [![npm version](https://badge.fury.io/js/nice-retry.svg)](https://badge.fury.io/js/nice-retry)
 [![Min zip size](https://img.shields.io/bundlephobia/minzip/nice-retry)](https://bundlephobia.com/package/nice-retry)
 
-A powerful, flexible, and developer-friendly retry utility for JavaScript/TypeScript with intelligent defaults and extensive customization options.
+A lightweight, zero-dependency retry utility for JavaScript/TypeScript that simply works.
 
-## Features
+Other retry libraries are often outdated, lack TypeScript support, have limited features, carry unnecessary dependencies, and expose complex APIs.
 
-- 🚀 Two powerful retry functions:
-  - `retry.async()` for any async operations
-  - `retry.fetch()` specifically optimized for fetch requests
-- 🔄 Multiple backoff strategies (exponential, linear, fixed, aggressive) with configurable jitter options (full, equal, decorrelated)
-- 🎯 Configurable retry conditions with built-in error predicates
-- 🔌 Fallback mechanism with support for multiple fallback functions
-- ⚡ Abort support using standard AbortController
-- 📊 Detailed retry results including attempts, timing, and error history
-- 💪 TypeScript-first with comprehensive type definitions
-- 🎨 Zero dependencies
+nice-retry provides all the retry functionality you need out of the box - no extra configuration or custom retry logic required. Just import and use. With built-in features like backoff strategies, jitter, fallbacks and abort support, plus full TypeScript types, it handles the complexity for you while keeping the API simple and intuitive.
 
 ## Installation
 
