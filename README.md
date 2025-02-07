@@ -74,6 +74,8 @@ await retry.async(fn, {
 <details>
 <summary>⏱️ Backoff Strategies</summary>
 
+Backoff is a technique that progressively increases the delay between retry attempts. This helps prevent overwhelming the system being called and allows it time to recover from any issues. Like gradually stepping back when something's not working, rather than continuously trying at the same rate.
+
 ```typescript
 await retry.async(fn, {
   backoffStrategy: 'exponential', // 1s → 2s → 4s (default)
@@ -87,6 +89,8 @@ await retry.async(fn, {
 
 <details>
 <summary>🎲 Jitter Strategies</summary>
+
+Jitter adds randomness to retry delays to prevent multiple clients from retrying at exactly the same time. This is particularly important in distributed systems where synchronized retries could cause "thundering herd" problems - where many clients hit a service simultaneously after a failure.
 
 ```typescript
 await retry.async(fn, {
@@ -121,8 +125,8 @@ controller.abort();
 ```typescript
 await retry.fetch('https://api.example.com/data', {
   retry: {
-    retryStatusCodes: [408, 429, 500, 502, 503, 504],
-    retryNetworkErrors: true,
+    retryStatusCodes: [408, 429, 500, 502, 503, 504], // HTTP status codes that will trigger a retry
+    retryNetworkErrors: true, // Whether to retry on network/connection errors
   },
 });
 ```

@@ -2,7 +2,6 @@
 
 ## [0.3.4](https://github.com/arshad-yaseen/nice-retry/compare/0.3.3...0.3.4) (2025-02-07)
 
-
 ### 📚 Documentation
 
 * simplify ([a6b0f6c](https://github.com/arshad-yaseen/nice-retry/commit/a6b0f6c336af03d542728c75a0447399a33cb1dc))
