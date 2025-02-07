@@ -1,18 +1,23 @@
 
 
-## [0.3.3](https://github.com/arshad-yaseen/nice-retry/compare/0.3.1...0.3.3) (2025-02-06)
+## [0.3.4](https://github.com/arshad-yaseen/nice-retry/compare/0.3.3...0.3.4) (2025-02-07)
 
 
 ### 📚 Documentation
 
-* add why ([7c134c7](https://github.com/arshad-yaseen/nice-retry/commit/7c134c78ffc1e37df6f52f036e386d58547ecc9a))
-* available types ([8170b32](https://github.com/arshad-yaseen/nice-retry/commit/8170b32ff83c8dc2b8533479d460d21975b32bdb))
-* format ([2f6fbeb](https://github.com/arshad-yaseen/nice-retry/commit/2f6fbebb2859db7f725e587c264561e967787cbc))
+* simplify ([a6b0f6c](https://github.com/arshad-yaseen/nice-retry/commit/a6b0f6c336af03d542728c75a0447399a33cb1dc))
 
+## [0.3.3](https://github.com/arshad-yaseen/nice-retry/compare/0.3.1...0.3.3) (2025-02-06)
+
+### 📚 Documentation
+
+- add why ([7c134c7](https://github.com/arshad-yaseen/nice-retry/commit/7c134c78ffc1e37df6f52f036e386d58547ecc9a))
+- available types ([8170b32](https://github.com/arshad-yaseen/nice-retry/commit/8170b32ff83c8dc2b8533479d460d21975b32bdb))
+- format ([2f6fbeb](https://github.com/arshad-yaseen/nice-retry/commit/2f6fbebb2859db7f725e587c264561e967787cbc))
 
 ### 🔧 Maintenance
 
-* update version ([6a92613](https://github.com/arshad-yaseen/nice-retry/commit/6a9261369c556de05ac13c3f825b391338e614bc))
+- update version ([6a92613](https://github.com/arshad-yaseen/nice-retry/commit/6a9261369c556de05ac13c3f825b391338e614bc))
 
 ## [0.3.1](https://github.com/arshad-yaseen/nice-retry/compare/0.3.0...0.3.1) (2025-02-06)
 
