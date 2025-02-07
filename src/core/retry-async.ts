@@ -1,11 +1,7 @@
 import {checkAborted} from 'abort-handler';
 import {DEFAULT_BASE_OPTIONS} from 'defaults';
 import {calculateDelay} from 'delay-calcs';
-import {
-  FallbackError,
-  MaxRetriesExceededError,
-  RetryConditionFailedError,
-} from 'retry-errors';
+import {MaxRetriesExceededError, RetryConditionFailedError} from 'retry-errors';
 import type {AsyncFunction, RetryAsyncOptions, RetryAsyncResult} from 'types';
 import {delay, toError} from 'utils';
 
@@ -86,8 +82,6 @@ export const retryAsync = async <T>(
         errors.push(toError(error));
       }
     }
-
-    throw new FallbackError(mergedOptions.maxAttempts, errors);
   }
 
   throw new MaxRetriesExceededError(mergedOptions.maxAttempts, errors);

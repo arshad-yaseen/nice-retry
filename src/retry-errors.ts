@@ -36,10 +36,3 @@ export class RetryAbortedError extends RetryOperationError {
     this.name = 'RetryAbortedError';
   }
 }
-
-export class FallbackError extends RetryOperationError {
-  constructor(attempts: number, errors: Error[] = []) {
-    super('Main operation and all fallback attempts failed', attempts, errors);
-    this.name = 'FallbackError';
-  }
-}

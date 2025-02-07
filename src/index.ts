@@ -31,5 +31,4 @@ export {
   RetryConditionFailedError,
   MaxRetriesExceededError,
   RetryAbortedError,
-  FallbackError,
 } from 'retry-errors';

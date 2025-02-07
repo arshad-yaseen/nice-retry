@@ -1,9 +1,5 @@
 import {retryAsync} from 'core/retry-async';
-import {
-  FallbackError,
-  MaxRetriesExceededError,
-  RetryAbortedError,
-} from 'retry-errors';
+import {MaxRetriesExceededError, RetryAbortedError} from 'retry-errors';
 import {describe, expect, it, vi} from 'vitest';
 
 describe('retryAsync', () => {
@@ -81,18 +77,6 @@ describe('retryAsync', () => {
     expect(mainFn).toHaveBeenCalledTimes(2);
     expect(fallback1).toHaveBeenCalledTimes(1);
     expect(fallback2).toHaveBeenCalledTimes(1);
-  });
-
-  it('should throw FallbackError when all fallbacks fail', async () => {
-    const mainFn = vi.fn().mockRejectedValue(new Error('main fail'));
-    const fallback = vi.fn().mockRejectedValue(new Error('fallback fail'));
-
-    await expect(
-      retryAsync(mainFn, {
-        maxAttempts: 2,
-        fallback,
-      }),
-    ).rejects.toThrow(FallbackError);
   });
 });
 
