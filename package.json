@@ -1,68 +1,68 @@
 {
-  "name": "nice-retry",
-  "version": "0.3.5",
-  "description": "Type-safe, lightweight (zero-dependency) retry utility for async operations that simply works.",
-  "main": "./build/index.js",
-  "types": "./build/index.d.ts",
-  "module": "./build/index.mjs",
-  "files": [
-    "build"
-  ],
-  "scripts": {
-    "build": "tsup src/index.ts",
-    "dev": "tsup src/index.ts --watch",
-    "test": "vitest run",
-    "test:playground": "node test-playground.mjs",
-    "test:watch": "vitest",
-    "test:coverage": "vitest run --coverage",
-    "tsc": "tsc --noEmit",
-    "lint": "eslint . --ext .ts,.tsx --fix",
-    "validate": "pnpm build && pnpm format && pnpm tsc && pnpm lint",
-    "format": "prettier --write .",
-    "release": "release-it",
-    "prepare": "husky"
-  },
-  "devDependencies": {
-    "@commitlint/cli": "^19.5.0",
-    "@commitlint/config-conventional": "^19.5.0",
-    "@ianvs/prettier-plugin-sort-imports": "^4.2.1",
-    "@release-it/conventional-changelog": "^8.0.2",
-    "@typescript-eslint/eslint-plugin": "^7.3.1",
-    "eslint": "^8.57.0",
-    "husky": "^9.1.6",
-    "prettier": "^3.2.5",
-    "release-it": "^17.6.0",
-    "tsup": "^8.0.2",
-    "typescript": "^5.4.3",
-    "vite-tsconfig-paths": "^5.1.4",
-    "vitest": "^2.0.5"
-  },
-  "keywords": [
-    "retry",
-    "async",
-    "promise",
-    "retry-async",
-    "retry-promise",
-    "retry-operation",
-    "retry-request",
-    "backoff",
-    "exponential-backoff",
-    "error-handling",
-    "promise-retry",
-    "retry-fetch",
-    "p-retry"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/arshad-yaseen/nice-retry.git"
-  },
-  "maintainers": [
-    {
-      "name": "Arshad Yaseen",
-      "email": "m@arshadyaseen.com",
-      "url": "https://arshadyaseen.com"
-    }
-  ],
-  "license": "MIT",
-  "author": "Arshad Yaseen <m@arshadyaseen.com> (https://arshadyaseen.com)"
+    "name": "nice-retry",
+    "version": "0.3.5",
+    "description": "Type-safe, lightweight (zero-dependency) retry utility for async operations that simply works.",
+    "main": "./build/index.js",
+    "types": "./build/index.d.ts",
+    "module": "./build/index.mjs",
+    "files": [
+        "build"
+    ],
+    "scripts": {
+        "build": "tsup src/index.ts",
+        "dev": "tsup src/index.ts --watch",
+        "test": "vitest run",
+        "test:playground": "node test-playground.mjs",
+        "test:watch": "vitest",
+        "test:coverage": "vitest run --coverage",
+        "tsc": "tsc --noEmit",
+        "lint": "eslint . --ext .ts,.tsx --fix",
+        "validate": "pnpm build && pnpm format && pnpm tsc && pnpm lint",
+        "format": "prettier --write .",
+        "release": "release-it",
+        "prepare": "husky"
+    },
+    "devDependencies": {
+        "@commitlint/cli": "^19.5.0",
+        "@commitlint/config-conventional": "^19.5.0",
+        "@ianvs/prettier-plugin-sort-imports": "^4.2.1",
+        "@release-it/conventional-changelog": "^8.0.2",
+        "@typescript-eslint/eslint-plugin": "^7.3.1",
+        "eslint": "^8.57.0",
+        "husky": "^9.1.6",
+        "prettier": "^3.2.5",
+        "release-it": "^17.6.0",
+        "tsup": "^8.0.2",
+        "typescript": "^5.4.3",
+        "vite-tsconfig-paths": "^5.1.4",
+        "vitest": "^2.0.5"
+    },
+    "keywords": [
+        "retry",
+        "async",
+        "promise",
+        "retry-async",
+        "retry-promise",
+        "retry-operation",
+        "retry-request",
+        "backoff",
+        "exponential-backoff",
+        "error-handling",
+        "promise-retry",
+        "retry-fetch",
+        "p-retry"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/arshad-yaseen/nice-retry.git"
+    },
+    "maintainers": [
+        {
+            "name": "Arshad Yaseen",
+            "email": "m@arshadyaseen.com",
+            "url": "https://arshadyaseen.com"
+        }
+    ],
+    "license": "MIT",
+    "author": "Arshad Yaseen <m@arshadyaseen.com> (https://arshadyaseen.com)"
 }

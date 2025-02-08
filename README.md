@@ -41,7 +41,7 @@ await retry.async(fn, {initialDelay: 1000});
 
 // Retry fetch with options
 await retry.fetch('https://api.example.com/data', {
-  retry: {maxAttempts: 3},
+    retry: {maxAttempts: 3},
 });
 ```
 
@@ -52,7 +52,7 @@ await retry.fetch('https://api.example.com/data', {
 
 ```typescript
 await retry.async(fn, {
-  retryIf: error => error.name === 'NetworkError',
+    retryIf: error => error.name === 'NetworkError',
 });
 ```
 
@@ -63,9 +63,9 @@ await retry.async(fn, {
 
 ```typescript
 await retry.async(fn, {
-  fallback: async () => backupOperation(),
-  // Or multiple fallbacks
-  fallback: [async () => primaryBackup(), async () => secondaryBackup()],
+    fallback: async () => backupOperation(),
+    // Or multiple fallbacks
+    fallback: [async () => primaryBackup(), async () => secondaryBackup()],
 });
 ```
 
@@ -78,10 +78,10 @@ Backoff is a technique that progressively increases the delay between retry atte
 
 ```typescript
 await retry.async(fn, {
-  backoffStrategy: 'exponential', // 1s → 2s → 4s (default)
-  backoffStrategy: 'linear', // 1s → 2s → 3s
-  backoffStrategy: 'aggressive', // 1s → 3s → 9s
-  backoffStrategy: 'fixed', // 1s → 1s → 1s
+    backoffStrategy: 'exponential', // 1s → 2s → 4s (default)
+    backoffStrategy: 'linear', // 1s → 2s → 3s
+    backoffStrategy: 'aggressive', // 1s → 3s → 9s
+    backoffStrategy: 'fixed', // 1s → 1s → 1s
 });
 ```
 
@@ -94,10 +94,10 @@ Jitter adds randomness to retry delays to prevent multiple clients from retrying
 
 ```typescript
 await retry.async(fn, {
-  jitterStrategy: 'full', // Random between 0 and delay (default)
-  jitterStrategy: 'equal', // Random between delay/2 and delay*1.5
-  jitterStrategy: 'decorrelated', // Independent random delays
-  jitterStrategy: 'none', // Exact delays
+    jitterStrategy: 'full', // Random between 0 and delay (default)
+    jitterStrategy: 'equal', // Random between delay/2 and delay*1.5
+    jitterStrategy: 'decorrelated', // Independent random delays
+    jitterStrategy: 'none', // Exact delays
 });
 ```
 
@@ -110,7 +110,7 @@ await retry.async(fn, {
 const controller = new AbortController();
 
 await retry.async(fn, {
-  signal: controller.signal,
+    signal: controller.signal,
 });
 
 // Cancel retries
@@ -124,10 +124,10 @@ controller.abort();
 
 ```typescript
 await retry.fetch('https://api.example.com/data', {
-  retry: {
-    retryStatusCodes: [408, 429, 500, 502, 503, 504], // HTTP status codes that will trigger a retry
-    retryNetworkErrors: true, // Whether to retry on network/connection errors
-  },
+    retry: {
+        retryStatusCodes: [408, 429, 500, 502, 503, 504], // HTTP status codes that will trigger a retry
+        retryNetworkErrors: true, // Whether to retry on network/connection errors
+    },
 });
 ```
 
@@ -142,15 +142,15 @@ await retry.fetch('https://api.example.com/data', {
 
 ```typescript
 function async<T>(
-  fn: () => Promise<T>,
-  options?: RetryAsyncOptions<T>,
+    fn: () => Promise<T>,
+    options?: RetryAsyncOptions<T>,
 ): Promise<RetryAsyncResult<T>>;
 
 interface RetryAsyncResult<T> {
-  data: T; // The result of the function
-  attempts: number; // The number of attempts made
-  totalTime: number; // The total time taken for all attempts
-  errors: Error[]; // The errors that occurred during the attempts
+    data: T; // The result of the function
+    attempts: number; // The number of attempts made
+    totalTime: number; // The total time taken for all attempts
+    errors: Error[]; // The errors that occurred during the attempts
 }
 ```
 
@@ -158,17 +158,17 @@ interface RetryAsyncResult<T> {
 
 ```typescript
 function fetch(
-  input: RequestInfo | URL,
-  init?: RequestInit & {
-    retry?: RetryFetchOptions;
-  },
+    input: RequestInfo | URL,
+    init?: RequestInit & {
+        retry?: RetryFetchOptions;
+    },
 ): Promise<RetryFetchResult>;
 
 interface RetryFetchResult {
-  response: Response; // The response from the fetch request
-  attempts: number; // The number of attempts made
-  totalTime: number; // The total time taken for all attempts
-  errors: Error[]; // The errors that occurred during the attempts
+    response: Response; // The response from the fetch request
+    attempts: number; // The number of attempts made
+    totalTime: number; // The total time taken for all attempts
+    errors: Error[]; // The errors that occurred during the attempts
 }
 ```
 
@@ -176,10 +176,10 @@ interface RetryFetchResult {
 
 ```typescript
 import {
-  MaxRetriesExceededError, // Thrown when max retries are exceeded
-  RetryAbortedError, // Thrown when the operation is aborted
-  RetryConditionFailedError, // Thrown when the retry condition check fails
-  RetryOperationError, // Base error for all retry operations
+    MaxRetriesExceededError, // Thrown when max retries are exceeded
+    RetryAbortedError, // Thrown when the operation is aborted
+    RetryConditionFailedError, // Thrown when the retry condition check fails
+    RetryOperationError, // Base error for all retry operations
 } from 'nice-retry';
 ```
 
@@ -191,10 +191,10 @@ Full TypeScript support with comprehensive type definitions:
 
 ```typescript
 import type {
-  BackoffStrategy,
-  JitterStrategy,
-  RetryAsyncOptions,
-  RetryFetchOptions,
+    BackoffStrategy,
+    JitterStrategy,
+    RetryAsyncOptions,
+    RetryFetchOptions,
 } from 'nice-retry';
 ```
 

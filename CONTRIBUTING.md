@@ -9,13 +9,13 @@ If you have any questions or need assistance, feel free to open an issue on GitH
 - [About This Repository](#about-this-repository)
 - [Repository Structure](#repository-structure)
 - [Development](#development)
-  - [Fork the Repository](#fork-the-repository)
-  - [Clone the Repository](#clone-the-repository)
-  - [Navigate to Project Directory](#navigate-to-project-directory)
-  - [Create a New Branch](#create-a-new-branch)
-  - [Install Dependencies](#install-dependencies)
-  - [Building the Package](#building-the-package)
-  - [Running in Development Mode](#running-in-development-mode)
+    - [Fork the Repository](#fork-the-repository)
+    - [Clone the Repository](#clone-the-repository)
+    - [Navigate to Project Directory](#navigate-to-project-directory)
+    - [Create a New Branch](#create-a-new-branch)
+    - [Install Dependencies](#install-dependencies)
+    - [Building the Package](#building-the-package)
+    - [Running in Development Mode](#running-in-development-mode)
 - [Testing nice-retry Locally](#testing-nice-retry-locally)
 - [Documentation](#documentation)
 - [Commit Conventions](#commit-conventions)
@@ -104,21 +104,21 @@ To use the playground:
 
 1. First build the package to reflect your changes:
 
-   ```bash
-   pnpm build
-   ```
+    ```bash
+    pnpm build
+    ```
 
-   Or start watch mode for real-time testing:
+    Or start watch mode for real-time testing:
 
-   ```bash
-   pnpm dev
-   ```
+    ```bash
+    pnpm dev
+    ```
 
 2. Run the playground:
 
-   ```bash
-   pnpm test:playground
-   ```
+    ```bash
+    pnpm test:playground
+    ```
 
 The playground will automatically use your latest built changes when running in watch mode, making it perfect for rapid development and testing.
 
@@ -168,8 +168,8 @@ If you have ideas for new features or components, we’d love to hear them!
 
 1. **Open an Issue:**
 
-   - Navigate to the [Issues](https://github.com/arshad-yaseen/nice-retry/issues) section of the repository.
-   - Click on **New Issue** and provide a clear and detailed description of your request.
+    - Navigate to the [Issues](https://github.com/arshad-yaseen/nice-retry/issues) section of the repository.
+    - Click on **New Issue** and provide a clear and detailed description of your request.
 
 ## Testing
 
@@ -199,18 +199,18 @@ pnpm test
 
 1. **Commit Your Changes:**
 
-   Ensure your commits follow the [Commit Conventions](#commit-conventions) outlined above.
+    Ensure your commits follow the [Commit Conventions](#commit-conventions) outlined above.
 
 2. **Push to Your Fork:**
 
-   ```bash
-   git push origin my-new-feature
-   ```
+    ```bash
+    git push origin my-new-feature
+    ```
 
 3. **Create a Pull Request:**
 
-   - Navigate to your forked repository on GitHub.
-   - Click on **Compare & pull request**.
-   - Provide a clear description of your changes and submit the pull request.
+    - Navigate to your forked repository on GitHub.
+    - Click on **Compare & pull request**.
+    - Provide a clear description of your changes and submit the pull request.
 
 Thank you for contributing to nice-retry! Your efforts help make the project better for everyone.
