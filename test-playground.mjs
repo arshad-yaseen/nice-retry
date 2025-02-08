@@ -8,7 +8,7 @@ const mayFail = () => {
     prevAttemptTime = currentAttemptTime;
     console.log(`Time since previous attempt: ${timeSincePrevAttempt}ms`);
 
-    if (Math.random() < 0.7) {
+    if (Math.random() < 0.8) {
         throw new Error('Failed');
     }
     return 'Success';
