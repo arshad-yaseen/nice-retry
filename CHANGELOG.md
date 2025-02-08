@@ -1,3 +1,14 @@
+
+
+## [0.3.7](https://github.com/arshad-yaseen/nice-retry/compare/0.3.5...0.3.7) (2025-02-08)
+
+
+### 🔧 Maintenance
+
+* format ([a6eb24d](https://github.com/arshad-yaseen/nice-retry/commit/a6eb24d74ae89da8b90bd48fe211dc412828c5a5))
+* patch version ([cf84a52](https://github.com/arshad-yaseen/nice-retry/commit/cf84a5247e5e6ae7d9260bcac4f4f3ca40c8d503))
+* update pg random count ([6672355](https://github.com/arshad-yaseen/nice-retry/commit/66723554ef3c3dce8eba61c73a66273e017fcd58))
+
 ## [0.3.5](https://github.com/arshad-yaseen/nice-retry/compare/0.3.4...0.3.5) (2025-02-07)
 
 ### 📚 Documentation
